@@ -20,9 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/users', users);
-app.use('/users', function(req, res, next){
-  console.log('handle users >>>>>')
-  res.render('users',{});
+app.use('/canvas', function(req, res, next){
+  res.render('canvas',{});
 });
 
 // catch 404 and forward to error handler

@@ -17,5 +17,9 @@
     "react": "^0.13.3",
     "react-tools": "^0.13.3",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "browserify": "^11.0.0",
+    "gulp": "^3.9.0"
   }
 }
