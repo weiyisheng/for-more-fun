@@ -24,6 +24,15 @@ app.use('/canvas', function(req, res, next){
   res.render('canvas',{});
 });
 
+app.use('/swiper', function(req, res, next){
+  res.render('swiper',{});
+});
+
+app.use('/blur', function(req, res, next){
+  res.render('blur',{});
+});
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log('error message add !!!')
