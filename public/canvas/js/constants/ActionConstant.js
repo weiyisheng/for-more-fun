@@ -6,5 +6,11 @@ var keyMirror = require('keymirror');
 module.exports = keyMirror({
 
     //action
-    DROP_CLICK: null
+    DROP_CLICK: null,
+
+    //direction
+    UP: null,
+    DOWN: null,
+    LEFT: null,
+    RIGHT: null
 })

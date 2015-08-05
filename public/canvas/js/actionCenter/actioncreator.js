@@ -2,12 +2,17 @@
  * Created by germini on 7/29/15.
  */
 var AppDispatcher = require('./AppDispatcher');
+var Constant = require('../constants/ActionConstant');
 
 module.exports = {
 
     userAction: function (action) {
-        console.log('userAction')
-        AppDispatcher.dispatch(action);
+        switch (action.actionType) {
+
+            default:
+                AppDispatcher.dispatch(action);
+                break;
+        }
     }
 };
 

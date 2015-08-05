@@ -53,9 +53,23 @@ gulp.task('js-blur', function () {
         .pipe(gulp.dest('./public/bundle'));
 });
 
+gulp.task('js-route', function () {
+    var b = browserify({
+        entries: './public/route/js/main.js',
+        debug: false
+    });
+
+    b.transform(reactify);
+
+    return b.bundle()
+        .pipe(source('route.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('./public/bundle'));
+});
+
 gulp.task('watch', function () {
     gulp.watch('./public/canvas/js/**/*.js', ['js-main']);
     gulp.watch('./public/swiper/js/**/*.js', ['js-swiper']);
-    gulp.watch('./public/blur/js/**/*.js', ['js-blur'])
-
+    gulp.watch('./public/blur/js/**/*.js', ['js-blur']);
+    gulp.watch('./public/route/js/**/*.js', ['js-route']);
 });

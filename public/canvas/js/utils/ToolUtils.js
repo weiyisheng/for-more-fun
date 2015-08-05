@@ -1,6 +1,8 @@
 /**
  * Created by germini on 7/28/15.
  */
+var Constants = require('../constants/ActionConstant');
+
 function getHexRandom() {
     var h = Math.ceil(Math.random() * 15);
     if (h > 9) {
@@ -38,6 +40,21 @@ function getHexRandom() {
     return h;
 }
 
+function setMoveStatus(move, status, clickDrop, d) {
+    if (move) {
+        status.moveDrop = clickDrop;
+        status.moveDirection = d;
+        status.dropIdChangeTo = status.currentEmpty;
+        status.currentEmpty = clickDrop;
+    } else {
+        status.moveDrop = null;
+        status.moveDirection = null;
+        status.dropIdChangeTo = null;
+    }
+
+    return status;
+}
+
 
 module.exports = {
 
@@ -47,5 +64,133 @@ module.exports = {
             c += getHexRandom();
         }
         return c;
+    },
+
+    calculateMoveStatus: function (clickDrop, status) {
+
+        switch (clickDrop) {
+            case '1':
+                if (status.currentEmpty == '2') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.RIGHT)
+                } else if (status.currentEmpty == '4') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.DOWN)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '2':
+                if (status.currentEmpty == '1') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.LEFT)
+                } else if (status.currentEmpty == '3') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.RIGHT)
+                } else if (status.currentEmpty == '5') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.DOWN)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '3':
+                if (status.currentEmpty == '2') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.LEFT)
+                } else if (status.currentEmpty == '6') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.DOWN)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '4':
+                if (status.currentEmpty == '1') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.UP)
+                } else if (status.currentEmpty == '5') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.RIGHT)
+                } else if (status.currentEmpty == '7') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.DOWN)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '5':
+                if (status.currentEmpty == '2') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.UP)
+                } else if (status.currentEmpty == '4') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.LEFT)
+                } else if (status.currentEmpty == '6') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.RIGHT)
+                } else if (status.currentEmpty == '8') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.DOWN)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '6':
+                if (status.currentEmpty == '3') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.UP)
+                } else if (status.currentEmpty == '5') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.LEFT)
+                } else if (status.currentEmpty == '9') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.DOWN)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '7':
+                if (status.currentEmpty == '4') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.UP)
+                } else if (status.currentEmpty == '8') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.RIGHT)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '8':
+                if (status.currentEmpty == '5') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.UP)
+                } else if (status.currentEmpty == '7') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.LEFT)
+                } else if (status.currentEmpty == '9') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.RIGHT)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            case '9':
+                if (status.currentEmpty == '6') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.UP)
+                } else if (status.currentEmpty == '8') {
+                    status = setMoveStatus(true, status, clickDrop, Constants.LEFT)
+                } else {
+                    status = setMoveStatus(false, status)
+                }
+                break;
+
+            default :
+                break;
+        }
+
+        return status
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
