@@ -5,7 +5,8 @@ var React = require('react');
 var Rectangle = require('./components/Rectangle');
 var Puzzle = require('./components/Puzzle');
 var PopupWindow = require('./components/PopupWindow');
+var Draw = require('./components/Draw');
 
-React.render(<Puzzle />, document.getElementById('content'));
+React.render(<Draw />, document.getElementById('content'));
 
 

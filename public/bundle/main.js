@@ -26879,7 +26879,7 @@ module.exports = {
     }
 };
 
-},{"../constants/ActionConstant":170,"./AppDispatcher":166}],166:[function(require,module,exports){
+},{"../constants/ActionConstant":171,"./AppDispatcher":166}],166:[function(require,module,exports){
 /**
  * Created by germini on 7/29/15.
  */
@@ -26891,6 +26891,45 @@ var AppDispatcher = assign(new Dispatcher(), {});
 module.exports = AppDispatcher
 
 },{"flux":3,"object-assign":8}],167:[function(require,module,exports){
+/**
+ * Created by germini on 8/5/15.
+ */
+var React = require('react');
+
+var Draw = React.createClass({displayName: "Draw",
+
+
+
+
+
+    componentDidMount: function () {
+        
+    },
+
+
+    render: function () {
+
+        var w = document.body.offsetWidth;
+        var h = document.body.offsetHeight;
+
+        var cW = w * .5
+        var cH = h * .7
+
+        var cS = {
+            left: w * .25,
+            top: h * .15,
+            backgroundColor: '#0a0a0a'
+        }
+
+        return (
+            React.createElement("canvas", {width: cW, height: cH, className: "absolute", style: cS})
+        )
+    }
+});
+
+module.exports = Draw;
+
+},{"react":163}],168:[function(require,module,exports){
 /**
  * Created by germini on 8/4/15.
  */
@@ -26928,7 +26967,7 @@ var PopupWindow = React.createClass({displayName: "PopupWindow",
 
 module.exports = PopupWindow
 
-},{"../utils/ToolUtils":174,"react":163,"velocity-animate":164}],168:[function(require,module,exports){
+},{"../utils/ToolUtils":175,"react":163,"velocity-animate":164}],169:[function(require,module,exports){
 /**
  * Created by germini on 7/28/15.
  */
@@ -26952,12 +26991,12 @@ var Drop = React.createClass({displayName: "Drop",
     },
 
     componentDidMount: function () {
+
         MainStore.addChangeListener(this._onChange);
 
         var ele = React.findDOMNode(this);
         var hammer = new Hammer(ele, {});
         hammer.on('tap', function () {
-            console.log('tap')
             ActionCreator.userAction({
                 actionType: Constant.DROP_CLICK,
                 dropId: ele.id
@@ -26965,8 +27004,14 @@ var Drop = React.createClass({displayName: "Drop",
         })
     },
 
+    shouldComponentUpdate: function (p, s) {
+        var ele = React.findDOMNode(this);
+
+        return s.dropsStatus.moveDrop == ele.id;
+    },
 
     componentDidUpdate: function () {
+
         var ele = React.findDOMNode(this);
 
         if (this.state.dropsStatus.moveDrop == ele.id) {
@@ -27040,8 +27085,9 @@ var Drop = React.createClass({displayName: "Drop",
             dropsStatus: MainStore.dropsStatus()
         })
     },
+
+
     move: function () {
-        console.log('click')
         var id = React.findDOMNode(this).id
         ActionCreator.userAction({
             actionType: Constant.DROP_CLICK,
@@ -27049,13 +27095,32 @@ var Drop = React.createClass({displayName: "Drop",
         })
     },
 
+    isf: {
+        isFirst: true,
+        firstColor: null
+    },
+
     render: function () {
         var dW = this.props.parentW / 3;
-        var dS = {
-            width: dW,
-            height: dW,
-            backgroundColor: ToolUtils.colorRandom()
-        };
+        var dS;
+        if (this.isf.isFirst) {
+            var c = ToolUtils.colorRandom();
+            dS = {
+                width: dW,
+                height: dW,
+                backgroundColor: c
+            };
+            this.isf.isFirst = false;
+            this.isf.firstColor = c;
+
+        } else {
+            dS = {
+                width: dW,
+                height: dW,
+                backgroundColor: this.isf.firstColor
+            };
+        }
+
 
         return (
             React.createElement("div", {className: "left", style: dS, id: this.props.id}
@@ -27100,7 +27165,7 @@ var Puzzle = React.createClass({displayName: "Puzzle",
 
 module.exports = Puzzle;
 
-},{"../actionCenter/ActionCreator":165,"../constants/ActionConstant":170,"../stores/MainStores":172,"../utils/DropUtils":173,"../utils/ToolUtils":174,"hammerjs":6,"react":163,"velocity-animate":164}],169:[function(require,module,exports){
+},{"../actionCenter/ActionCreator":165,"../constants/ActionConstant":171,"../stores/MainStores":173,"../utils/DropUtils":174,"../utils/ToolUtils":175,"hammerjs":6,"react":163,"velocity-animate":164}],170:[function(require,module,exports){
 /**
  * Created by germini on 7/27/15.
  */
@@ -27205,7 +27270,7 @@ var Rectangle = React.createClass({displayName: "Rectangle",
 
 module.exports = Rectangle;
 
-},{"hammerjs":6,"react":163,"velocity-animate":164}],170:[function(require,module,exports){
+},{"hammerjs":6,"react":163,"velocity-animate":164}],171:[function(require,module,exports){
 /**
  * Created by germini on 7/29/15.
  */
@@ -27223,7 +27288,7 @@ module.exports = keyMirror({
     RIGHT: null
 })
 
-},{"keymirror":7}],171:[function(require,module,exports){
+},{"keymirror":7}],172:[function(require,module,exports){
 /**
  * Created by germini on 7/24/15.
  */
@@ -27231,10 +27296,11 @@ var React = require('react');
 var Rectangle = require('./components/Rectangle');
 var Puzzle = require('./components/Puzzle');
 var PopupWindow = require('./components/PopupWindow');
+var Draw = require('./components/Draw');
 
-React.render(React.createElement(Puzzle, null), document.getElementById('content'));
+React.render(React.createElement(Draw, null), document.getElementById('content'));
 
-},{"./components/PopupWindow":167,"./components/Puzzle":168,"./components/Rectangle":169,"react":163}],172:[function(require,module,exports){
+},{"./components/Draw":167,"./components/PopupWindow":168,"./components/Puzzle":169,"./components/Rectangle":170,"react":163}],173:[function(require,module,exports){
 /**
  * Created by germini on 7/29/15.
  */
@@ -27292,7 +27358,7 @@ MainStores.dispatchToken = AppDispatcher.register(function (action) {
 
 module.exports = MainStores;
 
-},{"../actionCenter/AppDispatcher":166,"../constants/ActionConstant":170,"../utils/ToolUtils":174,"events":1,"object-assign":8}],173:[function(require,module,exports){
+},{"../actionCenter/AppDispatcher":166,"../constants/ActionConstant":171,"../utils/ToolUtils":175,"events":1,"object-assign":8}],174:[function(require,module,exports){
 /**
  * Created by germini on 7/29/15.
  */
@@ -27329,7 +27395,7 @@ module.exports = {
 
 }
 
-},{}],174:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 /**
  * Created by germini on 7/28/15.
  */
@@ -27511,4 +27577,4 @@ module.exports = {
     }
 };
 
-},{"../constants/ActionConstant":170}]},{},[171]);
+},{"../constants/ActionConstant":171}]},{},[172]);

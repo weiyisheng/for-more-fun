@@ -21,12 +21,12 @@ var Drop = React.createClass({
     },
 
     componentDidMount: function () {
+
         MainStore.addChangeListener(this._onChange);
 
         var ele = React.findDOMNode(this);
         var hammer = new Hammer(ele, {});
         hammer.on('tap', function () {
-            console.log('tap')
             ActionCreator.userAction({
                 actionType: Constant.DROP_CLICK,
                 dropId: ele.id
@@ -34,8 +34,14 @@ var Drop = React.createClass({
         })
     },
 
+    shouldComponentUpdate: function (p, s) {
+        var ele = React.findDOMNode(this);
+
+        return s.dropsStatus.moveDrop == ele.id;
+    },
 
     componentDidUpdate: function () {
+
         var ele = React.findDOMNode(this);
 
         if (this.state.dropsStatus.moveDrop == ele.id) {
@@ -109,8 +115,9 @@ var Drop = React.createClass({
             dropsStatus: MainStore.dropsStatus()
         })
     },
+
+
     move: function () {
-        console.log('click')
         var id = React.findDOMNode(this).id
         ActionCreator.userAction({
             actionType: Constant.DROP_CLICK,
@@ -118,13 +125,32 @@ var Drop = React.createClass({
         })
     },
 
+    isf: {
+        isFirst: true,
+        firstColor: null
+    },
+
     render: function () {
         var dW = this.props.parentW / 3;
-        var dS = {
-            width: dW,
-            height: dW,
-            backgroundColor: ToolUtils.colorRandom()
-        };
+        var dS;
+        if (this.isf.isFirst) {
+            var c = ToolUtils.colorRandom();
+            dS = {
+                width: dW,
+                height: dW,
+                backgroundColor: c
+            };
+            this.isf.isFirst = false;
+            this.isf.firstColor = c;
+
+        } else {
+            dS = {
+                width: dW,
+                height: dW,
+                backgroundColor: this.isf.firstColor
+            };
+        }
+
 
         return (
             <div className='left' style={dS} id={this.props.id}>
