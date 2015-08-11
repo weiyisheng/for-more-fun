@@ -5,14 +5,15 @@ var React = require('react');
 
 var Draw = React.createClass({
 
-
-
-
-
     componentDidMount: function () {
+        var t = this;
 
+        window.onresize = function () {
+            console.log('window resize event')
+
+            t.setState({})
+        }
     },
-
 
     render: function () {
 

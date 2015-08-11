@@ -32340,14 +32340,11 @@ var Avatar = React.createClass({displayName: "Avatar",
         var fC = colorRandom();
         var cS = {
             width: cW,
-            height: cW,
-            backgroundColor: bC,
-            color: fC
+            height: cW
         };
 
         return (
-            React.createElement("div", {className: "circle border-none left", style: cS}
-
+            React.createElement("img", {className: "circle border-none left", src: "../../../res/blur/Jay.jpg", style: cS}
             )
         )
     }
@@ -32387,9 +32384,10 @@ var SwiperContainer = React.createClass({displayName: "SwiperContainer",
         var mySwiper = new Swiper('.swiper-container', {
             // Optional parameters
             direction: 'horizontal',
-            loop: true,
+            loop: true
         })
     },
+
 
     render: function () {
         var w = document.body.clientWidth;

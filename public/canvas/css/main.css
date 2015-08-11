@@ -18,3 +18,8 @@ html, body, #content {
 .left{
     float: left;
 }
+
+.test-img{
+    width: 100%;
+    height: 50%;
+}

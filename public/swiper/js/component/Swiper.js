@@ -26,15 +26,12 @@ var Avatar = React.createClass({
         var fC = colorRandom();
         var cS = {
             width: cW,
-            height: cW,
-            backgroundColor: bC,
-            color: fC
+            height: cW
         };
 
         return (
-            <div className='circle border-none left' style={cS}>
-
-            </div>
+            <img className='circle border-none left' src='../../../res/blur/Jay.jpg' style={cS}>
+            </img>
         )
     }
 });
@@ -73,9 +70,10 @@ var SwiperContainer = React.createClass({
         var mySwiper = new Swiper('.swiper-container', {
             // Optional parameters
             direction: 'horizontal',
-            loop: true,
+            loop: true
         })
     },
+
 
     render: function () {
         var w = document.body.clientWidth;
