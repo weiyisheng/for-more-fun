@@ -29,3 +29,7 @@ html, body, #content {
 .left{
     float: left;
 }
+
+.text-center{
+    text-align: center;
+}

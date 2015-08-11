@@ -3,34 +3,60 @@
  */
 var React = require('react');
 var Swiper = require('swiper');
+var ActionCreator = require('../actionCenter/ActionCreator');
+var Constants = require('../constants/Constants');
+var MainStore = require('../store/MainStore');
 
+var NameBox = React.createClass({
 
-var men = ['John', 'Steven', 'Jack', 'Kyle', 'Mina', 'Loger', 'Van', 'Yee', 'Donny', 'Cathy', 'Martin'];
-function colorRandom() {
-    var c = '#';
-    for (var i = 0; i < 6; i++) {
-        c += parseInt(Math.random() * 10)
+    getInitialState: function () {
+        return {
+            userName: MainStore.getShowingUser()
+        }
+    },
+
+    componentDidMount: function () {
+        MainStore.addChangeListener(this._onChange)
+    },
+
+    _onChange: function () {
+        this.setState({
+            userName: MainStore.getShowingUser()
+        })
+    },
+
+    render: function () {
+        return (
+            <div className='text-center'>{this.state.userName}</div>
+        )
     }
+});
 
-    console.log('random color =' + c)
-    return c
-}
 
 var Avatar = React.createClass({
 
+    showName: function () {
+        var name = this.props.userName;
+        ActionCreator.userAction({
+            actionType: Constants.keymirror.SHOW_USER_NAME,
+            userName: name
+        })
+    },
+
     render: function () {
-        var w = document.body.clientWidth;
+        var w = document.body.offsetWidth;
 
         var cW = w * .2;
-        var bC = colorRandom();
-        var fC = colorRandom();
         var cS = {
             width: cW,
             height: cW
         };
 
         return (
-            <img className='circle border-none left' src='../../../res/blur/Jay.jpg' style={cS}>
+            <img className='circle border-none left'
+                 src='../../../res/blur/Jay.jpg'
+                 style={cS}
+                 onClick={this.showName}>
             </img>
         )
     }
@@ -39,13 +65,14 @@ var Avatar = React.createClass({
 
 var SwiperSlide = React.createClass({
     render: function () {
+
+        var avatars = this.props.users.map(function (i) {
+            return <Avatar userName={i}/>
+        });
+
         return (
             <div className="swiper-slide">
-                <Avatar />
-                <Avatar />
-                <Avatar />
-                <Avatar />
-                <Avatar />
+                {avatars}
             </div>
         )
     }
@@ -54,11 +81,14 @@ var SwiperSlide = React.createClass({
 var SwiperWraper = React.createClass({
 
     render: function () {
+
+        var slides = Constants.men.map(function (i) {
+            return <SwiperSlide users={i}/>
+        })
+
         return (
             <div className="swiper-wrapper full-height">
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
+                {slides}
             </div>
         )
     }
@@ -70,19 +100,16 @@ var SwiperContainer = React.createClass({
         var mySwiper = new Swiper('.swiper-container', {
             // Optional parameters
             direction: 'horizontal',
-            loop: true
+            loop: false
         })
     },
 
 
     render: function () {
-        var w = document.body.clientWidth;
-        var h = document.body.clientHeight;
-
-
         return (
             <div className='swiper-container'>
                 <SwiperWraper />
+                <NameBox />
             </div>
         )
     }
